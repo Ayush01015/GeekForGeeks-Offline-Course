@@ -23,6 +23,7 @@ class SLL{
         int deleteNode(node*);
         int printKthNodeFromLast(int);
         void reverseLLusingRecursion();
+        SLL AddTwoNumbersLL(int,int);
 };
 SLL::SLL(){
     start = NULL;
@@ -30,46 +31,6 @@ SLL::SLL(){
 SLL::~SLL(){
     while(start)
         deleteFirstNode();
-}
-void print(node *t){
-    if(t==NULL)
-        return;
-    cout<<t->item<<" ";
-    print(t->next);
-}
-void SLL::viewUsingRecursion(){
-    if(start==NULL){
-        cout<<"List is Empty\n";
-        return;
-    }
-        print(start);
-}
-
-void printKthNode(node *t,int &k){
-    if(t==NULL)
-        return;
-    printKthNode(t->next,k);
-    k--;
-    if(k == 0)
-        cout<<t->item<<endl;
-}
-
-int SLL::printKthNodeFromLast(int k){
-    printKthNode(start,k);
-}
-
-node* reverseLL(node *head){
-    if(head==NULL || head->next == NULL)
-        return head;
-    node *newHead = reverseLL(head->next);
-    head->next->next = head;
-    head->next = NULL;
-    return newHead;
-}
-
-void SLL::reverseLLusingRecursion(){
-    node *revStart = reverseLL(start);
-    start = revStart; // new reversed start
 }
 void SLL::view(){
     if(start==NULL)
@@ -83,7 +44,6 @@ void SLL::view(){
         cout<<endl;
     }
 }
-
 void SLL::insertAtLast(int data){
     node *n = new node;
     n->item = data;
@@ -164,6 +124,84 @@ int SLL::deleteNode(node *r){
     delete r;
     return deletedValue;
 }
+
+/*******************
+Rercursive functions
+********************/
+
+void print(node *t){
+    if(t==NULL)
+        return;
+    cout<<t->item<<" ";
+    print(t->next);
+}
+void SLL::viewUsingRecursion(){
+    if(start==NULL){
+        cout<<"List is Empty\n";
+        return;
+    }
+        print(start);
+}
+
+void printKthNode(node *t,int &k){
+    if(t==NULL)
+        return;
+    printKthNode(t->next,k);
+    k--;
+    if(k == 0)
+        cout<<t->item<<endl;
+}
+
+int SLL::printKthNodeFromLast(int k){
+    printKthNode(start,k);
+}
+
+node* reverseLL(node *head){
+    if(head==NULL || head->next == NULL)
+        return head;
+    node *newHead = reverseLL(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return newHead;
+}
+
+void SLL::reverseLLusingRecursion(){
+    node *revStart = reverseLL(start);
+    start = revStart; // new reversed start
+}
+
+/*
+    Add two numbers represented by LL
+    INPUT
+    43  4->3->NULL
+    345 3->4->5->NULL
+    OUTPUT
+    388 3->8->8->NULL
+*/
+// SLL SLL :: AddTwoNumbersLL(int a,int b){
+//     SLL l;
+//     int val,sum = a + b;
+//     while(sum){
+//         val = sum % 10;
+//         l.insertAtFirst(val);
+//         sum = sum / 10;
+//     }
+//     return l;
+// }
+void rec(SLL &l,int sum){
+    if(sum == 0)
+        return;
+    int val = sum % 10;
+    l.insertAtFirst(val);
+    rec(l,sum/10);
+}
+SLL SLL :: AddTwoNumbersLL(int a,int b){
+    SLL l;
+    int sum = a + b;
+    rec(l,sum);
+    return l;
+}
+
 int main(){
     SLL l;
     l.insertAtLast(10);
@@ -176,5 +214,8 @@ int main(){
     // l.printKthNodeFromLast(4);
     l.reverseLLusingRecursion();
     l.view();
+    SLL l2 = l.AddTwoNumbersLL(100000,300);
+    l2.view();
+
     return 0;
 }
