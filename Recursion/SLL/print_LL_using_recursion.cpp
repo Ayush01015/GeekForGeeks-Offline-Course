@@ -21,6 +21,8 @@ class SLL{
         int deleteLastNode();
         void deleteFirstNode();
         int deleteNode(node*);
+        int printKthNodeFromLast(int);
+        void reverseLLusingRecursion();
 };
 SLL::SLL(){
     start = NULL;
@@ -42,6 +44,33 @@ void SLL::viewUsingRecursion(){
     }
         print(start);
 }
+
+void printKthNode(node *t,int &k){
+    if(t==NULL)
+        return;
+    printKthNode(t->next,k);
+    k--;
+    if(k == 0)
+        cout<<t->item<<endl;
+}
+
+int SLL::printKthNodeFromLast(int k){
+    printKthNode(start,k);
+}
+
+node* reverseLL(node *head){
+    if(head==NULL || head->next == NULL)
+        return head;
+    node *newHead = reverseLL(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return newHead;
+}
+
+void SLL::reverseLLusingRecursion(){
+    node *revStart = reverseLL(start);
+    start = revStart; // new reversed start
+}
 void SLL::view(){
     if(start==NULL)
         cout<<"List is Empty\n";
@@ -54,6 +83,7 @@ void SLL::view(){
         cout<<endl;
     }
 }
+
 void SLL::insertAtLast(int data){
     node *n = new node;
     n->item = data;
@@ -141,9 +171,10 @@ int main(){
     l.insertAtLast(30);
     l.insertAtLast(40);
     l.insertAtLast(50);
-    l.insertAtLast(60);
-    l.insertAtFirst(999);
-    l.view();
     l.viewUsingRecursion();
+    cout<<endl;
+    // l.printKthNodeFromLast(4);
+    l.reverseLLusingRecursion();
+    l.view();
     return 0;
 }
